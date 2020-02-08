@@ -6,15 +6,15 @@ public class Vector extends Point {
     super(end.getX() - start.getX(), end.getY() - start.getY());
   }
 
-  public float getLength() {
-    return (float) Math.sqrt(getX() * getX() + getY() * getY());
+  public double getLength() {
+    return Math.sqrt(getX() * getX() + getY() * getY());
   }
 
-  public float dotProductWith(Vector vector) {
+  public double dotProductWith(Vector vector) {
     return getX() * vector.getX() + getY() * vector.getY();
   }
 
-  public float detWith(Vector vector) {
+  public double detWith(Vector vector) {
     return getX() * vector.getY() - getY() * vector.getX();
   }
 }

@@ -1,11 +1,10 @@
 package org.ichack20.poser;
 
-
-import java.security.acl.NotOwnerException;
-
 public class Pose {
 
-  Point[] points = new Point[Node.values().length];
+  private static final double DEG_PER_RAD = 180 / Math.PI;
+
+  private final Point[] points = new Point[Node.values().length];
 
   public Pose(float[][] points) {
     for (int i = 0; i <= points.length; i++) {
@@ -13,20 +12,25 @@ public class Pose {
     }
   }
 
-  private float getAngle(Point first, Point middle, Point last) {
-    //TODO
-    return 0;
+  private double getAngle(Point first, Point middle, Point last) {
+    Vector firstVector = new Vector(first, middle);
+    Vector secondVector = new Vector(middle, last);
+
+    double dotProduct = firstVector.dotProductWith(secondVector);
+    double det = firstVector.detWith(secondVector);
+
+    double result_rad = Math.atan2(det, dotProduct);
+
+    return result_rad * DEG_PER_RAD;
   }
 
-  public float getAngle(Node first, Node middle, Node last) {
-    //TODO
-    return 0;
+  public double getAngle(Node first, Node middle, Node last) {
+    return getAngle(points[first.ordinal()], points[middle.ordinal()], points[last.ordinal()]);
   }
 
-  public float getAngle(Angle angle) {
+  public double getAngle(Angle angle) {
     return getAngle(angle.getFirst(), angle.getMiddle(), angle.getLast());
   }
-
 
   enum Angle {
     L_SHOULDER(Node.L_HIP, Node.L_SHOULDER, Node.L_ELBOW),

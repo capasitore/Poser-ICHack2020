@@ -2,12 +2,12 @@ package org.ichack20.poser.exercises;
 
 import org.ichack20.poser.Pose;
 
-public class BicepsCurl implements Exercise {
+public class LateralRaise implements Exercise {
 
   private Orientation orientation;
 
-  public BicepsCurl() {
-    this.orientation = Orientation.SIDE;
+  public LateralRaise() {
+    this.orientation = Orientation.FRONT;
   }
 
   @Override

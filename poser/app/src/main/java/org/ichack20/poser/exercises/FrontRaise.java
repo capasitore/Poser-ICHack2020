@@ -4,8 +4,14 @@ import org.ichack20.poser.Pose;
 
 public class FrontRaise implements Exercise {
 
-    @Override
-    public void update(Pose pose) {
+  private Orientation orientation;
 
-    }
+  public FrontRaise() {
+    this.orientation = Orientation.SIDE;
+  }
+
+  @Override
+  public void update(Pose pose) {
+
+  }
 }

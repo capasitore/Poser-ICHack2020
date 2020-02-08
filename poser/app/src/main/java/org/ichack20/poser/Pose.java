@@ -32,7 +32,7 @@ public class Pose {
     return getAngle(angle.getFirst(), angle.getMiddle(), angle.getLast());
   }
 
-  enum Angle {
+  public enum Angle {
     L_SHOULDER(Node.L_HIP, Node.L_SHOULDER, Node.L_ELBOW),
     R_SHOULDER(Node.R_ELBOW, Node.R_SHOULDER, Node.R_HIP),
     L_ELBOW(Node.L_SHOULDER, Node.L_ELBOW, Node.L_WRIST),
@@ -61,7 +61,7 @@ public class Pose {
     }
   }
 
-  enum Node {
+  public enum Node {
     TOP,
     NECK,
     L_SHOULDER,

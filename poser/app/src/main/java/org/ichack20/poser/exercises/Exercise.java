@@ -16,6 +16,11 @@ public abstract class Exercise {
   }
 
   protected int reps;
+
+  public Map<ExerciseError, Integer> getErrors() {
+    return errors;
+  }
+
   protected Map<ExerciseError, Integer> errors;
 
   public int getReps() {

@@ -18,6 +18,7 @@ package com.edvard.poseestimation
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.Toast
@@ -121,6 +122,7 @@ class CameraActivity : Activity() {
 
     override fun onStop() {
       Toast.makeText(this@CameraActivity, "Stop", Toast.LENGTH_SHORT).show()
+      startSummaryPage()
     }
 
   }
@@ -167,5 +169,18 @@ class CameraActivity : Activity() {
 
     @JvmStatic
     var isOpenCVInit = false
+  }
+
+  private fun startSummaryPage(){
+    val intent = Intent(this, CameraActivity::class.java)
+    val errors = exercise!!.errors.toList().sortedBy { (k, v) -> v }
+
+    intent.putExtra("num_errors", errors.size)
+    errors.forEachIndexed { i, x ->
+      intent.putExtra("error$i", x.toString())
+    }
+
+    intent.putExtra("reps", exercise!!.reps)
+    startActivity(intent)
   }
 }

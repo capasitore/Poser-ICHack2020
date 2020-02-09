@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
   private void startExercise(String exercise) {
     Intent intent = new Intent(this, CameraActivity.class);
     intent.putExtra("exercise", exercise);
+
     startActivity(intent);
   }
 

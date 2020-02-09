@@ -658,7 +658,9 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     val ps = PoseEstimator(classifier)
     val pose = ps.processFrame(bitmap)
 
-    exercise!!.update(pose, (activity as CameraActivity).textToSpeech)
+    if ((activity as CameraActivity).working) {
+      exercise!!.update(pose, (activity as CameraActivity).textToSpeech)
+    }
 
     activity.runOnUiThread{reps_counter!!.text = exercise!!.reps.toString()}
 

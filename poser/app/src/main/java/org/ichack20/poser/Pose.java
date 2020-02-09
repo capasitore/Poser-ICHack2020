@@ -36,7 +36,8 @@ public class Pose {
     L_SHOULDER(Node.L_HIP, Node.L_SHOULDER, Node.L_ELBOW),
     R_SHOULDER(Node.R_ELBOW, Node.R_SHOULDER, Node.R_HIP),
     L_ELBOW(Node.L_SHOULDER, Node.L_ELBOW, Node.L_WRIST),
-    R_ELBOW(Node.R_WRIST, Node.R_ELBOW, Node.R_SHOULDER);
+    R_ELBOW(Node.R_WRIST, Node.R_ELBOW, Node.R_SHOULDER),
+    R_HIP(Node.R_KNEE, Node.R_HIP, Node.NECK);
 
     public Node getFirst() {
       return first;

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion buildConfig.compileSdk
@@ -13,8 +14,8 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments  '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=gnustl_static'
-                cppFlags "-std=c++11","-frtti", "-fexceptions"
+                arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=gnustl_static'
+                cppFlags "-std=c++11", "-frtti", "-fexceptions"
             }
         }
         ndk {
@@ -81,13 +82,17 @@ dependencies {
     implementation deps.android.support.annotations
     implementation deps.android.support.supportV13
     implementation deps.timber
+    implementation 'com.android.support:cardview-v7:28.0.0'
+
 
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
     implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly'
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation deps.junit
 
     androidTestImplementation(deps.android.test.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    implementation 'com.android.support:cardview-v7:27.1.1'
 }

@@ -23,6 +23,7 @@ import android.app.Fragment
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.ImageFormat
 import android.graphics.Matrix
 import android.graphics.Point
@@ -391,8 +392,8 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
           maxPreviewHeight = MAX_PREVIEW_HEIGHT
         }
 
-
-        previewSize = Size(MAX_PREVIEW_HEIGHT, MAX_PREVIEW_WIDTH)
+        val displayMetrics = Resources.getSystem().getDisplayMetrics()
+        previewSize = Size(displayMetrics.heightPixels, displayMetrics.widthPixels)
 
         // We fit the aspect ratio of TextureView to the size of preview we picked.
         val orientation = resources.configuration.orientation

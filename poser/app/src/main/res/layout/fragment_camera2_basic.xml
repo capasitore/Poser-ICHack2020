@@ -15,6 +15,7 @@
 -->
 <FrameLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:background="@color/white"
   android:layout_width="match_parent"
@@ -22,30 +23,92 @@
 
   <com.edvard.poseestimation.AutoFitFrameLayout
     android:id="@+id/layout_frame"
-    android:layout_width="1080px"
-    android:layout_height="2340px"
-    android:layout_gravity="center_vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    tools:srcCompat="@drawable/ic_launcher">
 
     <com.edvard.poseestimation.AutoFitTextureView
       android:id="@+id/texture"
-      android:layout_width="1080px"
-      android:layout_height="2340px"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_gravity="center_vertical" />
     <com.edvard.poseestimation.DrawView
       android:id="@+id/drawview"
-      android:layout_width="1080px"
-      android:layout_height="2340px"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
       android:layout_gravity="center_vertical" />
 
   </com.edvard.poseestimation.AutoFitFrameLayout>
+  <android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.constraint.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent">
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <TextView
+          android:id="@+id/reps"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="REPS:"
+          android:textColor="#FFFFFF" />
+        <TextView
+          android:id="@+id/rep_counter_txt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="0 lol"
+          android:textAlignment="textStart"
+          android:textColor="#FFFFFF" />
+      </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
 
-  <TextView
-    android:id="@+id/text"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textColor="@color/black"
-    android:textSize="20sp"
-    android:textStyle="bold"
-    tools:text="asd"/>
+      <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@null"
+        android:src="@drawable/ic_arrow_back_white_48dp"
+        android:tint="@drawable/button_press_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <Switch
+          android:id="@+id/bro_switch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="BRO MODE  "
+          android:textColor="#FFFFFF"
+          android:textStyle="bold"
+          android:theme="@style/BroSwitchTheme" />
+      </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+  </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

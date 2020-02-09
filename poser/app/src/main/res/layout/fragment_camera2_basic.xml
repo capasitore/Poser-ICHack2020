@@ -85,7 +85,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:background="@null"
-        android:src="@drawable/ic_arrow_back_white_48dp"
         android:tint="@drawable/button_press_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

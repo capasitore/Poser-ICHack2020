@@ -15,6 +15,7 @@
         android:layout_marginBottom="10dp"
         android:layout_weight="0"
         android:fontFamily="sans-serif"
+        android:gravity="center"
         android:text="Exercises"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -74,17 +75,12 @@
                     android:layout_height="170dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="77dp"
                     android:layout_marginBottom="0dp"
 
                     android:background="@null"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/bicepscurl" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
 
             </RelativeLayout>
 

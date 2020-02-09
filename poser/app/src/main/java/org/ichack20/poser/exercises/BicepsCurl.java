@@ -9,8 +9,8 @@ public class BicepsCurl extends Exercise {
 
   private final static int START_ELBOW_ANGLE = 165;
   private final static int END_ELBOW_ANGLE = 50;
-  private final static int ERROR_SHOULDER_ANGLE_FORWARD = 30;
-  private final static int ERROR_SHOULDER_ANGLE_BACKWARD = 150;
+  private final static int ERROR_SHOULDER_ANGLE_FORWARD = 330;
+  private final static int ERROR_SHOULDER_ANGLE_BACKWARD = 30;
   private final static int ERROR_HIP_ANGLE_FORWARD = 160;
   private final static int ERROR_HIP_ANGLE_BACKWARD = 200;
 
@@ -44,8 +44,8 @@ public class BicepsCurl extends Exercise {
 
     // Keep track of moving upper arm and add errors
     in_error_shoulder_angle = trackError(
-        rightShoulder > ERROR_SHOULDER_ANGLE_FORWARD
-            && rightShoulder < ERROR_SHOULDER_ANGLE_BACKWARD,
+        rightShoulder < ERROR_SHOULDER_ANGLE_FORWARD
+            && rightShoulder > ERROR_SHOULDER_ANGLE_BACKWARD,
         ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle);
 
     // Kee[ track of moving hips and add errors

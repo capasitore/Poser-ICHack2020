@@ -7,11 +7,11 @@ public class FrontRaise extends Exercise {
 
   // ALWAYS RIGHT HAND IN FRONT OF THE CAMERA!!!
 
-  private final static int ERROR_ELBOW_ANGLE = 160;
-  private final static int END_SHOULDER_ANGLE = 80;
-  private final static int START_SHOULDER_ANGLE_SIDE = 15;
+  private final static int ERROR_ELBOW_ANGLE = 150;
+  private final static int END_SHOULDER_ANGLE = 290;
+  private final static int START_SHOULDER_ANGLE = 340;
   private final static int ERROR_HIP_ANGLE_FORWARD = 160;
-  private final static int ERROR_HIP_ANGLE_BACKWARD = 200;
+  private final static int ERROR_HIP_ANGLE_BACKWARD = 210;
 
   private boolean in_error_elbow_angle = false;
   private boolean in_error_hip_angle = false;
@@ -24,13 +24,14 @@ public class FrontRaise extends Exercise {
 
   @Override
   public void update(Pose pose) {
-    if (pose.getAngle(Angle.R_SHOULDER) > END_SHOULDER_ANGLE) {
+    if (pose.getAngle(Angle.R_SHOULDER) < END_SHOULDER_ANGLE
+        && pose.getAngle(Angle.R_SHOULDER) > 120) { // > 120 to prevent overflow to 0
       if (prevMove == Move.UP) {
         prevMove = Move.DOWN;
       }
     }
 
-    if (pose.getAngle(Angle.R_SHOULDER) < START_SHOULDER_ANGLE_SIDE) {
+    if (pose.getAngle(Angle.R_SHOULDER) > START_SHOULDER_ANGLE) {
       if (prevMove == Move.DOWN) {
         prevMove = Move.UP;
         reps++;

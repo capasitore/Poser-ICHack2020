@@ -4,8 +4,8 @@ import org.ichack20.poser.Pose;
 
 public class BicepsCurl implements Exercise {
 
-    @Override
-    public void update(Pose pose) {
+  @Override
+  public void update(Pose pose) {
 
-    }
+  }
 }

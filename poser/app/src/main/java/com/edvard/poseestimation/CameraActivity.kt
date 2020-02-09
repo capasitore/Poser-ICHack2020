@@ -109,27 +109,7 @@ class CameraActivity : Activity() {
           .commit()
     }
 
-    val permissionCheck = ContextCompat.checkSelfPermission(this,
-            Manifest.permission.RECORD_AUDIO)
-    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-      ActivityCompat.requestPermissions(this,
-              arrayOf(Manifest.permission.RECORD_AUDIO), 1)
-    } else {
-      SpeechInitTask().execute()
-    }
-  }
-
-  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                          grantResults: IntArray) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-    if (requestCode == 1) {
-      if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        SpeechInitTask().execute()
-      } else {
-        TODO("implement message that permission is required for speech recognition")
-      }
-    }
+    SpeechInitTask().execute()
   }
 
   override fun onResume() {

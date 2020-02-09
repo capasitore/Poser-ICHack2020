@@ -15,4 +15,8 @@
 -->
 <resources>
     <style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
+    <style name="BroSwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/bro_color</item>
+    </style>
 </resources>
+

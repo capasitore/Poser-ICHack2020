@@ -23,6 +23,7 @@ import android.app.Fragment
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.ImageFormat
 import android.graphics.Matrix
 import android.graphics.Point
@@ -68,13 +69,10 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private val lock = Any()
   private var runClassifier = false
   private var checkedPermissions = false
-  private var textView: TextView? = null
   private var textureView: AutoFitTextureView? = null
   private var layoutFrame: AutoFitFrameLayout? = null
   private var drawView: DrawView? = null
   private var classifier: ImageClassifier? = null
-  private var layoutBottom: ViewGroup? = null
-  private var radiogroup: RadioGroup? = null
   /**
    * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [ ].
    */
@@ -244,7 +242,6 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private fun showToast(text: String) {
     val activity = activity
     activity?.runOnUiThread {
-      textView!!.text = text
       drawView!!.invalidate()
     }
   }
@@ -268,19 +265,9 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     savedInstanceState: Bundle?
   ) {
     textureView = view.findViewById(R.id.texture)
-    textView = view.findViewById(R.id.text)
     layoutFrame = view.findViewById(R.id.layout_frame)
     drawView = view.findViewById(R.id.drawview)
-    layoutBottom = view.findViewById(R.id.layout_bottom)
-    radiogroup = view.findViewById(R.id.radiogroup);
 
-    radiogroup!!.setOnCheckedChangeListener { group, checkedId ->
-      if(checkedId==R.id.radio_cpu){
-        startBackgroundThread(Runnable { classifier!!.initTflite(false) })
-      } else {
-        startBackgroundThread(Runnable { classifier!!.initTflite(true) })
-      }
-    }
   }
 
   /**
@@ -405,14 +392,8 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
           maxPreviewHeight = MAX_PREVIEW_HEIGHT
         }
 
-        previewSize = chooseOptimalSize(
-            map.getOutputSizes(SurfaceTexture::class.java),
-            rotatedPreviewWidth,
-            rotatedPreviewHeight,
-            maxPreviewWidth,
-            maxPreviewHeight,
-            largest
-        )
+        val displayMetrics = Resources.getSystem().getDisplayMetrics()
+        previewSize = Size(displayMetrics.heightPixels, displayMetrics.widthPixels)
 
         // We fit the aspect ratio of TextureView to the size of preview we picked.
         val orientation = resources.configuration.orientation
@@ -719,12 +700,12 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     /**
      * Max preview width that is guaranteed by Camera2 API
      */
-    private const val MAX_PREVIEW_WIDTH = 1920
+    private const val MAX_PREVIEW_WIDTH = 1080
 
     /**
      * Max preview height that is guaranteed by Camera2 API
      */
-    private const val MAX_PREVIEW_HEIGHT = 1080
+    private const val MAX_PREVIEW_HEIGHT = 2340
 
     /**
      * Resizes image.
@@ -756,7 +737,6 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
       maxHeight: Int,
       aspectRatio: Size
     ): Size {
-
       // Collect the supported resolutions that are at least as big as the preview Surface
       val bigEnough = ArrayList<Size>()
       // Collect the supported resolutions that are smaller than the preview Surface

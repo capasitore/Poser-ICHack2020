@@ -14,138 +14,101 @@
  limitations under the License.
 -->
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:background="@color/white"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <com.edvard.poseestimation.AutoFitFrameLayout
+    android:id="@+id/layout_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    tools:srcCompat="@drawable/ic_launcher">
+
+    <com.edvard.poseestimation.AutoFitTextureView
+      android:id="@+id/texture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical" />
+    <com.edvard.poseestimation.DrawView
+      android:id="@+id/drawview"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center_vertical" />
+
+  </com.edvard.poseestimation.AutoFitFrameLayout>
+  <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.edvard.poseestimation.AutoFitFrameLayout
-        android:id="@+id/layout_frame"
+    <android.support.constraint.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent">
+      <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        >
-
-        <com.edvard.poseestimation.DrawView
-            android:id="@+id/drawview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            />
-
-    </com.edvard.poseestimation.AutoFitFrameLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
-        android:background="#1c000000"
-        android:paddingStart="10dp"
-        android:paddingEnd="0dp"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <TextView
+          android:id="@+id/reps"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="REPS:"
+          android:textColor="#FFFFFF" />
+        <TextView
+          android:id="@+id/rep_counter_txt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="0 lol"
+          android:textAlignment="textStart"
+          android:textColor="#FFFFFF" />
+      </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="top"
-          android:textColor="@color/color_top"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/neck"
-          android:textColor="@color/color_neck"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/l_shoulder"
-          android:textColor="@color/color_l_shoulder"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/l_elbow"
-          android:textColor="@color/color_l_elbow"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/l_wrist"
-          android:textColor="@color/color_l_wrist"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/l_hip"
-          android:textColor="@color/color_l_hip"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/l_knee"
-          android:textColor="@color/color_l_knee"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/l_ankle"
-          android:textColor="@color/color_l_ankle"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/r_shoulder"
-          android:textColor="@color/color_r_shoulder"/>
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/r_elbow"
-          android:textColor="@color/color_r_elbow"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/r_wrist"
-          android:textColor="@color/color_r_wrist"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/r_hip"
-          android:textColor="@color/color_r_hip"/>
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/r_knee"
-          android:textColor="@color/color_r_knee"/>
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/r_ankle"
-          android:textColor="@color/color_r_ankle"/>
-    </LinearLayout>
-
-    <RadioGroup
-        android:id="@+id/radiogroup"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
+      <ImageButton
+        android:id="@+id/trainer_back_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <RadioButton android:id="@+id/radio_gpu"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="GPU"/>
-        <RadioButton android:id="@+id/radio_cpu"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CPU"/>
-    </RadioGroup>
+        android:layout_margin="15dp"
+        android:background="@null"
+        android:src="@drawable/ic_arrow_back_white_48dp"
+        android:tint="@drawable/button_press_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+      <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <Switch
+          android:id="@+id/bro_switch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="BRO MODE  "
+          android:textColor="#FFFFFF"
+          android:textStyle="bold"
+          android:theme="@style/BroSwitchTheme" />
+      </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+  </android.support.constraint.ConstraintLayout>
+
 </FrameLayout>

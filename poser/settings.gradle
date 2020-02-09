@@ -1,1 +1,1 @@
-include ':app', ':openCVLibrary341'
+include ':app', ':openCVLibrary341', ':pocketsphinx-android-5prealpha-release'

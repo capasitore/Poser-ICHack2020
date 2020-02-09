@@ -41,7 +41,7 @@ public class BicepsCurl extends Exercise {
         prevMove = Move.UP;
         reps++;
 
-        textToSpeech.speak("Well done!");
+        textToSpeech.speak(reps + "");
       }
     }
 

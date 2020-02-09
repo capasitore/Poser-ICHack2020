@@ -32,6 +32,7 @@ public class LateralRaise extends Exercise {
       if (prevMove == Move.DOWN) {
         prevMove = Move.UP;
         reps++;
+        textToSpeech.speak(reps + "");
       }
     }
 

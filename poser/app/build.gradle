@@ -73,7 +73,6 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':openCVLibrary341')
-    implementation project(':pocketsphinx-android-5prealpha-release')
     implementation deps.kotlin.stdlib.jdk
 //    implementation(name:'tensorflow-lite', ext:'aar')
     implementation deps.android.support.appcompatV7
@@ -94,9 +93,4 @@ dependencies {
     androidTestImplementation(deps.android.test.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:cardview-v7:27.1.1'
 }
-
-ant.importBuild 'assets.xml'
-preBuild.dependsOn(list, checksum)
-clean.dependsOn(clean_assets)

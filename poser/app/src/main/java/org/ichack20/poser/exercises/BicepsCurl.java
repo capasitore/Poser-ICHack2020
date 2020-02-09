@@ -49,20 +49,12 @@ public class BicepsCurl extends Exercise {
     in_error_shoulder_angle = trackError(
         rightShoulder < ERROR_SHOULDER_ANGLE_FORWARD
             && rightShoulder > ERROR_SHOULDER_ANGLE_BACKWARD,
-        ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle);
-
-    if (in_error_shoulder_angle) {
-      textToSpeech.speak(ExerciseError.SHOULDER_MOVE_ERROR.toString());
-    }
+        ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle, textToSpeech);
 
     // Kee[ track of moving hips and add errors
     in_error_hip_angle = trackError(pose.getAngle(Angle.R_HIP)
             < ERROR_HIP_ANGLE_FORWARD || pose.getAngle(Angle.R_HIP)
             > ERROR_HIP_ANGLE_BACKWARD,
-        ExerciseError.HIP_FLEX_ERROR, in_error_hip_angle);
-
-    if (in_error_hip_angle) {
-      textToSpeech.speak(ExerciseError.HIP_FLEX_ERROR.toString());
-    }
+        ExerciseError.HIP_FLEX_ERROR, in_error_hip_angle, textToSpeech);
   }
 }

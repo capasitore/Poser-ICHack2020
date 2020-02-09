@@ -43,12 +43,12 @@ public class FrontRaise extends Exercise {
     // Keep track of flexing arm and add errors
     in_error_elbow_angle = trackError(pose.getAngle(Angle.R_ELBOW)
         < ERROR_ELBOW_ANGLE, ExerciseError.ELBOW_FLEX_ERROR,
-        in_error_elbow_angle);
+        in_error_elbow_angle, textToSpeech);
 
     // Keep track of hip flex and add errors
     in_error_hip_angle = trackError(pose.getAngle(Angle.R_HIP)
         < ERROR_HIP_ANGLE_FORWARD || pose.getAngle(Angle.R_HIP)
         > ERROR_HIP_ANGLE_BACKWARD, ExerciseError.HIP_FLEX_ERROR,
-        in_error_hip_angle);
+        in_error_hip_angle, textToSpeech);
   }
 }

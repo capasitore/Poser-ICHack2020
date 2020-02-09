@@ -38,6 +38,7 @@ import android.hardware.camera2.CaptureRequest
 import android.hardware.camera2.CaptureResult
 import android.hardware.camera2.TotalCaptureResult
 import android.media.ImageReader
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
@@ -51,19 +52,23 @@ import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_camera2_basic.*
 import org.ichack20.poser.Pose
 import org.ichack20.poser.PoseEstimator
 import org.ichack20.poser.exercises.Exercise
 import org.ichack20.poser.exercises.LateralRaise
 import java.io.IOException
+import java.io.InputStream
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.Collections
 import java.util.Comparator
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 /**
  * Basic fragments for the Camera.
@@ -75,7 +80,9 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private var checkedPermissions = false
   private var textureView: AutoFitTextureView? = null
   private var debugger: TextView? = null
+  private var mp: MediaPlayer? = null
   private var layoutFrame: AutoFitFrameLayout? = null
+  private var bro_toggle: Switch? = null
 //  private var drawView: DrawView? = null
   private var classifier: ImageClassifier? = null
 
@@ -279,6 +286,8 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     layoutFrame = view.findViewById(R.id.layout_frame)
 //    drawView = view.findViewById(R.id.drawview)
     debugger = view.findViewById(R.id.angle_debug)
+    bro_toggle = view.findViewById(R.id.bro_switch)
+    mp = MediaPlayer.create(activity, R.raw.bro1)
 
 //    val displayMetrics = Resources.getSystem().displayMetrics
 //
@@ -643,6 +652,10 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     textureView!!.setTransform(matrix)
   }
 
+
+  val bro_sounds = intArrayOf(R.raw.bro1,R.raw.bro2,R.raw.bro3)
+  var old_rep_counter = 0
+
   /**
    * Classifies a frame from the preview stream.
    */
@@ -662,7 +675,27 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
       exercise!!.update(pose, (activity as CameraActivity).textToSpeech)
     }
 
-    activity.runOnUiThread{reps_counter!!.text = exercise!!.reps.toString()}
+
+//    mp.setVolume(1f, 1f)
+
+    if (old_rep_counter != exercise!!.reps){
+      old_rep_counter = exercise!!.reps
+      activity.runOnUiThread{reps_counter!!.text = old_rep_counter.toString()}
+
+
+      if (old_rep_counter % 3 == 1 && bro_toggle!!.isChecked){
+        var bro_id = Random.nextInt(bro_sounds.size)
+        mp!!.reset()
+        var afd = context.getResources().openRawResourceFd(bro_sounds[bro_id])
+
+        mp!!.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength())
+        mp!!.prepare()
+
+        mp!!.start()
+//        mp.release()
+      }
+
+    }
 
     var txt = "ls: ${pose.getAngle(Pose.Angle.L_SHOULDER).toInt()}" +
             " rs: ${pose.getAngle(Pose.Angle.R_SHOULDER).toInt()}" +

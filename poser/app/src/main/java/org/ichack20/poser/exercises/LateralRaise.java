@@ -1,33 +1,20 @@
 package org.ichack20.poser.exercises;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.ichack20.poser.Pose;
 import org.ichack20.poser.Pose.Angle;
 
-public class LateralRaise implements Exercise {
+public class LateralRaise extends Exercise {
 
-  private final Orientation orientation;
   private final static int START_SHOULDER_ANGLE = 20;
   private final static int END_SHOULDER_ANGLE = 80;
   private final static int ERROR_ELBOW_ANGLE = 160;
   private boolean in_error_elbow_angle = false;
-  private int reps;
   // TODO: idea: add badReps (for easier angle margins)
   private Move prevMove = Move.DOWN;
-  private Map<ExerciseError, Integer> errors;
 
-  public LateralRaise() {
-    this.orientation = Orientation.FRONT;
-    this.reps = 0;
-    this.errors = new HashMap<>();
-  }
-
-  public String error_msg(ExerciseError error) {
-    switch (error) {
-      case ELBOW_ERROR: return "Keep your arms straight!";
-    }
-    return "";
+  @Override
+  public Orientation getOrientation() {
+    return Orientation.FRONT;
   }
 
   @Override

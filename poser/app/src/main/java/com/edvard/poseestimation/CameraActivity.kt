@@ -16,7 +16,11 @@
 package com.edvard.poseestimation
 
 import android.app.Activity
+import android.app.ProgressDialog
+import android.os.AsyncTask
 import android.os.Bundle
+import org.ichack20.poser.SpeechRecognition
+import org.ichack20.poser.TextToSpeech
 
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
@@ -46,6 +50,61 @@ class CameraActivity : Activity() {
     }
   }
 
+  private var speechRecognition: SpeechRecognition? = null
+  private var textToSpeech: TextToSpeech? = null
+
+  inner class ResourceInitTask : AsyncTask<Void, Void, SpeechRecognition?>() {
+    private var progressDialog = ProgressDialog(this@CameraActivity)
+
+    override fun onPreExecute() {
+      progressDialog.setMessage("Loading, please wait...")
+      progressDialog.show()
+    }
+
+    override fun doInBackground(vararg p0: Void?): SpeechRecognition? {
+      return try {
+        SpeechRecognition(this@CameraActivity, SpeechListener())
+      } catch (exception: Exception) {
+        exception.printStackTrace()
+        null
+      }
+    }
+
+    override fun onPostExecute(result: SpeechRecognition?) {
+      speechRecognition = result
+
+      if (speechRecognition == null) {
+        progressDialog.hide()
+        TODO("implement message that loading speech recognition failed")
+      } else {
+        textToSpeech = TextToSpeech(this@CameraActivity,
+                android.speech.tts.TextToSpeech.OnInitListener {
+                  progressDialog.hide()
+                  if (it != android.speech.tts.TextToSpeech.SUCCESS) {
+                    TODO("implement message that loading text-to-speech failed")
+                  } else {
+                    speechRecognition!!.start()
+                  }
+                })
+      }
+    }
+  }
+
+  inner class SpeechListener : SpeechRecognition.SpeechRecognitionListener {
+    override fun onStart() {
+      TODO("not implemented")
+    }
+
+    override fun onPause() {
+      TODO("not implemented")
+    }
+
+    override fun onStop() {
+      TODO("not implemented")
+    }
+
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_camera)
@@ -55,6 +114,8 @@ class CameraActivity : Activity() {
           .replace(R.id.container, Camera2BasicFragment.newInstance())
           .commit()
     }
+
+    ResourceInitTask().execute()
   }
 
   override fun onResume() {
@@ -69,7 +130,6 @@ class CameraActivity : Activity() {
   companion object {
 
     init {
-      //        System.loadLibrary("opencv_java");
       System.loadLibrary("opencv_java3")
     }
 

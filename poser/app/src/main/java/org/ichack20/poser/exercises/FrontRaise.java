@@ -2,6 +2,7 @@ package org.ichack20.poser.exercises;
 
 import org.ichack20.poser.Pose;
 import org.ichack20.poser.Pose.Angle;
+import org.ichack20.poser.TextToSpeech;
 
 public class FrontRaise extends Exercise {
 
@@ -23,7 +24,7 @@ public class FrontRaise extends Exercise {
   }
 
   @Override
-  public void update(Pose pose) {
+  public void update(Pose pose, TextToSpeech textToSpeech) {
     if (pose.getAngle(Angle.R_SHOULDER) < END_SHOULDER_ANGLE
         && pose.getAngle(Angle.R_SHOULDER) > 120) { // > 120 to prevent overflow to 0
       if (prevMove == Move.UP) {

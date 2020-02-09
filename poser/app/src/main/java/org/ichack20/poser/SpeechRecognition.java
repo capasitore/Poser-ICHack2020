@@ -39,8 +39,8 @@ public class SpeechRecognition implements RecognitionListener {
 
     this.speechRecognizer.addListener(this);
 
-    this.speechRecognizer.addKeyphraseSearch("keyword", KEYPHRASE_START);
-    this.speechRecognizer.addKeyphraseSearch("keyword", KEYPHRASE_PAUSE);
+    //this.speechRecognizer.addKeyphraseSearch("keyword", KEYPHRASE_START);
+    //this.speechRecognizer.addKeyphraseSearch("keyword", KEYPHRASE_PAUSE);
     this.speechRecognizer.addKeyphraseSearch("keyword", KEYPHRASE_STOP);
   }
 
@@ -63,8 +63,7 @@ public class SpeechRecognition implements RecognitionListener {
 
   }
 
-  @Override
-  public void onPartialResult(Hypothesis hypothesis) {
+  private void processResult(Hypothesis hypothesis) {
     if (hypothesis != null) {
       switch (hypothesis.getHypstr()) {
         case KEYPHRASE_START:
@@ -83,8 +82,13 @@ public class SpeechRecognition implements RecognitionListener {
   }
 
   @Override
-  public void onResult(Hypothesis hypothesis) {
+  public void onPartialResult(Hypothesis hypothesis) {
+    processResult(hypothesis);
+  }
 
+  @Override
+  public void onResult(Hypothesis hypothesis) {
+    processResult(hypothesis);
   }
 
   @Override

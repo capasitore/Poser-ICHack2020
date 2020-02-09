@@ -16,19 +16,19 @@
         app:srcCompat="@drawable/party_popper_facebook" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10px"
-        android:layout_weight="0"
-        android:gravity="center"
-        android:text="Awesome Job!"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        android:textStyle="bold|italic"
-        android:typeface="normal" />
+      android:id="@+id/textView2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="10px"
+      android:layout_weight="0"
+      android:gravity="center"
+      android:text="Awesome Job!"
+      android:textAlignment="center"
+      android:textAllCaps="false"
+      android:textColor="@color/white"
+      android:textSize="50sp"
+      android:textStyle="bold|italic"
+      android:typeface="normal" />
 
     <TextView
         android:id="@+id/textView3"

@@ -3,6 +3,7 @@ package org.ichack20.poser.exercises;
 import java.util.HashMap;
 import java.util.Map;
 import org.ichack20.poser.Pose;
+import org.ichack20.poser.TextToSpeech;
 
 public abstract class Exercise {
 
@@ -49,5 +50,5 @@ public abstract class Exercise {
   }
 
   public abstract Orientation getOrientation();
-  public abstract void update(Pose pose);
+  public abstract void update(Pose pose, TextToSpeech textToSpeech);
 }

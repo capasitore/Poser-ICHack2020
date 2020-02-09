@@ -43,13 +43,14 @@
 
                 <ImageButton
 
-                    android:layout_width="350dp"
-                    android:layout_height="170dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="0dp"
-                    android:background="@null"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/frontraises" />
+                  android:layout_width="350dp"
+                  android:layout_height="170dp"
+                  android:layout_centerInParent="true"
+                  android:layout_marginBottom="0dp"
+                  android:background="@null"
+                  android:onClick="onFrontClick"
+                  android:scaleType="centerCrop"
+                  app:srcCompat="@drawable/frontraises" />
 
             </RelativeLayout>
 
@@ -71,16 +72,17 @@
 
                 <ImageButton
 
-                    android:layout_width="350dp"
-                    android:layout_height="170dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="77dp"
-                    android:layout_marginBottom="0dp"
+                  android:layout_width="350dp"
+                  android:layout_height="170dp"
+                  android:layout_alignParentStart="true"
+                  android:layout_centerVertical="true"
+                  android:layout_marginStart="77dp"
+                  android:layout_marginBottom="0dp"
 
-                    android:background="@null"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/bicepscurl" />
+                  android:background="@null"
+                  android:onClick="onCurlClick"
+                  android:scaleType="centerCrop"
+                  app:srcCompat="@drawable/bicepscurl" />
 
             </RelativeLayout>
 
@@ -102,13 +104,14 @@
 
                 <ImageButton
 
-                    android:layout_width="350dp"
-                    android:layout_height="170dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="0dp"
-                    android:background="@null"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/lateral_raises" />
+                  android:layout_width="350dp"
+                  android:layout_height="170dp"
+                  android:layout_centerInParent="true"
+                  android:layout_marginBottom="0dp"
+                  android:background="@null"
+                  android:onClick="onLateralClick"
+                  android:scaleType="centerCrop"
+                  app:srcCompat="@drawable/lateral_raises" />
 
 
             </RelativeLayout>

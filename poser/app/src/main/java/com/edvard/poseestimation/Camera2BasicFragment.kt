@@ -254,7 +254,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     }
   }
 
-  private lateinit var exercise : Exercise
+  private var exercise : Exercise? = null
 
   /**
    * Layout the preview and buttons.
@@ -286,7 +286,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
 
     reps_counter = view.findViewById(R.id.rep_counter_txt)
 
-    exercise = LateralRaise()
+    exercise = (activity as CameraActivity).exercise
   }
 
   /**
@@ -658,9 +658,9 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     val ps = PoseEstimator(classifier)
     val pose = ps.processFrame(bitmap)
 
-    exercise.update(pose)
+    exercise!!.update(pose, (activity as CameraActivity).textToSpeech)
 
-    activity.runOnUiThread{reps_counter!!.text = exercise.reps.toString()}
+    activity.runOnUiThread{reps_counter!!.text = exercise!!.reps.toString()}
 
     var txt = "ls: ${pose.getAngle(Pose.Angle.L_SHOULDER).toInt()}" +
             " rs: ${pose.getAngle(Pose.Angle.R_SHOULDER).toInt()}" +

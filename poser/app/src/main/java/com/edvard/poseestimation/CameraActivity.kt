@@ -16,15 +16,22 @@
 package com.edvard.poseestimation
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.AsyncTask
 import android.os.Bundle
+import android.widget.Toast
 import org.ichack20.poser.SpeechRecognition
 import org.ichack20.poser.TextToSpeech
+import org.ichack20.poser.exercises.BicepsCurl
+import org.ichack20.poser.exercises.Exercise
+import org.ichack20.poser.exercises.FrontRaise
+import org.ichack20.poser.exercises.LateralRaise
 
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
 import org.opencv.android.OpenCVLoader
+import kotlin.system.exitProcess
 
 /**
  * Main `Activity` class for the Camera app.
@@ -51,7 +58,10 @@ class CameraActivity : Activity() {
   }
 
   private var speechRecognition: SpeechRecognition? = null
-  private var textToSpeech: TextToSpeech? = null
+  var textToSpeech: TextToSpeech? = null
+
+  private var cameraFragment: Camera2BasicFragment? = null
+  var exercise: Exercise? = null
 
   inner class ResourceInitTask : AsyncTask<Void, Void, SpeechRecognition?>() {
     private var progressDialog = ProgressDialog(this@CameraActivity)
@@ -75,13 +85,23 @@ class CameraActivity : Activity() {
 
       if (speechRecognition == null) {
         progressDialog.hide()
-        TODO("implement message that loading speech recognition failed")
+        val builder = AlertDialog.Builder(this@CameraActivity)
+        builder.setTitle("Speech recognition init error")
+        builder.setMessage("An error occurred when setting up speech recognition." +
+                " The app will close now.")
+        builder.create().show()
+        exitProcess(0)
       } else {
         textToSpeech = TextToSpeech(this@CameraActivity,
                 android.speech.tts.TextToSpeech.OnInitListener {
                   progressDialog.hide()
                   if (it != android.speech.tts.TextToSpeech.SUCCESS) {
-                    TODO("implement message that loading text-to-speech failed")
+                    val builder = AlertDialog.Builder(this@CameraActivity)
+                    builder.setTitle("Text-to-speech init error")
+                    builder.setMessage("An error occurred when setting up text-to-speech. " +
+                            "The app will close now.")
+                    builder.create().show()
+                    exitProcess(0)
                   } else {
                     speechRecognition!!.start()
                   }
@@ -92,15 +112,15 @@ class CameraActivity : Activity() {
 
   inner class SpeechListener : SpeechRecognition.SpeechRecognitionListener {
     override fun onStart() {
-      TODO("not implemented")
+      Toast.makeText(this@CameraActivity, "Start", Toast.LENGTH_SHORT).show()
     }
 
     override fun onPause() {
-      TODO("not implemented")
+      Toast.makeText(this@CameraActivity, "Pause", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {
-      TODO("not implemented")
+      Toast.makeText(this@CameraActivity, "Stop", Toast.LENGTH_SHORT).show()
     }
 
   }
@@ -109,6 +129,16 @@ class CameraActivity : Activity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_camera)
     if (null == savedInstanceState) {
+      var exerciseString = intent.extras.getString("exercise")
+
+      if (exerciseString.equals("front")) {
+        exercise = FrontRaise()
+      } else if (exerciseString.equals("curl")) {
+        exercise = BicepsCurl()
+      } else if (exerciseString.equals("lateral")) {
+        exercise = LateralRaise()
+      }
+
       fragmentManager
           .beginTransaction()
           .replace(R.id.container, Camera2BasicFragment.newInstance())
@@ -125,6 +155,8 @@ class CameraActivity : Activity() {
     } else {
       mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
     }
+
+    cameraFragment = fragmentManager.fragments[0] as Camera2BasicFragment
   }
 
   companion object {

@@ -96,3 +96,7 @@ dependencies {
     })
     implementation 'com.android.support:cardview-v7:27.1.1'
 }
+
+ant.importBuild 'assets.xml'
+preBuild.dependsOn(list, checksum)
+clean.dependsOn(clean_assets)

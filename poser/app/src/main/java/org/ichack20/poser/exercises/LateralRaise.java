@@ -2,6 +2,7 @@ package org.ichack20.poser.exercises;
 
 import org.ichack20.poser.Pose;
 import org.ichack20.poser.Pose.Angle;
+import org.ichack20.poser.TextToSpeech;
 
 public class LateralRaise extends Exercise {
 
@@ -18,7 +19,7 @@ public class LateralRaise extends Exercise {
   }
 
   @Override
-  public void update(Pose pose) {
+  public void update(Pose pose, TextToSpeech textToSpeech) {
     if (pose.getAngle(Angle.L_SHOULDER) > END_SHOULDER_ANGLE
         && pose.getAngle(Angle.R_SHOULDER) > END_SHOULDER_ANGLE) {
       if (prevMove == Move.UP) {

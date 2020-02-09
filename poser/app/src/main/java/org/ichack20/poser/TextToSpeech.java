@@ -12,7 +12,7 @@ public class TextToSpeech {
   }
 
   public void speak(String text) {
-    textToSpeech.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH,
+    textToSpeech.speak(text, android.speech.tts.TextToSpeech.QUEUE_ADD,
         null, null);
   }
 }

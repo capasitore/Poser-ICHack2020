@@ -15,8 +15,15 @@
 
 package com.edvard.poseestimation
 
+import android.Manifest
 import android.app.Activity
+import android.app.ProgressDialog
+import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import org.ichack20.poser.SpeechRecognition
 
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
@@ -46,6 +53,52 @@ class CameraActivity : Activity() {
     }
   }
 
+  private var speechRecognition: SpeechRecognition? = null
+
+  inner class SpeechInitTask : AsyncTask<Void, Void, SpeechRecognition?>() {
+    private var progressDialog = ProgressDialog(this@CameraActivity)
+
+    override fun onPreExecute() {
+      progressDialog.setMessage("Loading speech recognition...")
+      progressDialog.show()
+    }
+
+    override fun doInBackground(vararg p0: Void?): SpeechRecognition? {
+      return try {
+        SpeechRecognition(this@CameraActivity, SpeechListener())
+      } catch (exception: Exception) {
+        exception.printStackTrace()
+        null
+      }
+    }
+
+    override fun onPostExecute(result: SpeechRecognition?) {
+      speechRecognition = result
+      progressDialog.hide()
+
+      if (speechRecognition == null) {
+        TODO("implement message that loading speech recognition failed")
+      } else {
+        speechRecognition!!.start()
+      }
+    }
+  }
+
+  inner class SpeechListener : SpeechRecognition.SpeechRecognitionListener {
+    override fun onStart() {
+      TODO("not implemented")
+    }
+
+    override fun onPause() {
+      TODO("not implemented")
+    }
+
+    override fun onStop() {
+      TODO("not implemented")
+    }
+
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_camera)
@@ -54,6 +107,28 @@ class CameraActivity : Activity() {
           .beginTransaction()
           .replace(R.id.container, Camera2BasicFragment.newInstance())
           .commit()
+    }
+
+    val permissionCheck = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.RECORD_AUDIO)
+    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(this,
+              arrayOf(Manifest.permission.RECORD_AUDIO), 1)
+    } else {
+      SpeechInitTask().execute()
+    }
+  }
+
+  override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                          grantResults: IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+    if (requestCode == 1) {
+      if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        SpeechInitTask().execute()
+      } else {
+        TODO("implement message that permission is required for speech recognition")
+      }
     }
   }
 
@@ -69,7 +144,6 @@ class CameraActivity : Activity() {
   companion object {
 
     init {
-      //        System.loadLibrary("opencv_java");
       System.loadLibrary("opencv_java3")
     }
 

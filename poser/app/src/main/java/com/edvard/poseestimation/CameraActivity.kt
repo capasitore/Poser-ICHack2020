@@ -16,124 +16,152 @@
 package com.edvard.poseestimation
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.os.AsyncTask
+import android.content.Intent
 import android.os.Bundle
-import org.ichack20.poser.SpeechRecognition
+import org.ichack20.poser.SummaryActivity
 import org.ichack20.poser.TextToSpeech
+import org.ichack20.poser.exercises.BicepsCurl
+import org.ichack20.poser.exercises.Exercise
+import org.ichack20.poser.exercises.FrontRaise
+import org.ichack20.poser.exercises.LateralRaise
 
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
 import org.opencv.android.OpenCVLoader
+import java.util.*
+import kotlin.system.exitProcess
 
 /**
  * Main `Activity` class for the Camera app.
  */
 class CameraActivity : Activity() {
 
-  private val mLoaderCallback = object : BaseLoaderCallback(this) {
-    override fun onManagerConnected(status: Int) {
-      when (status) {
-        LoaderCallbackInterface.SUCCESS -> isOpenCVInit = true
-        LoaderCallbackInterface.INCOMPATIBLE_MANAGER_VERSION -> {
+    private val mLoaderCallback = object : BaseLoaderCallback(this) {
+        override fun onManagerConnected(status: Int) {
+            when (status) {
+                LoaderCallbackInterface.SUCCESS -> isOpenCVInit = true
+                LoaderCallbackInterface.INCOMPATIBLE_MANAGER_VERSION -> {
+                }
+                LoaderCallbackInterface.INIT_FAILED -> {
+                }
+                LoaderCallbackInterface.INSTALL_CANCELED -> {
+                }
+                LoaderCallbackInterface.MARKET_ERROR -> {
+                }
+                else -> {
+                    super.onManagerConnected(status)
+                }
+            }
         }
-        LoaderCallbackInterface.INIT_FAILED -> {
-        }
-        LoaderCallbackInterface.INSTALL_CANCELED -> {
-        }
-        LoaderCallbackInterface.MARKET_ERROR -> {
-        }
-        else -> {
-          super.onManagerConnected(status)
-        }
-      }
-    }
-  }
-
-  private var speechRecognition: SpeechRecognition? = null
-  private var textToSpeech: TextToSpeech? = null
-
-  inner class ResourceInitTask : AsyncTask<Void, Void, SpeechRecognition?>() {
-    private var progressDialog = ProgressDialog(this@CameraActivity)
-
-    override fun onPreExecute() {
-      progressDialog.setMessage("Loading, please wait...")
-      progressDialog.show()
     }
 
-    override fun doInBackground(vararg p0: Void?): SpeechRecognition? {
-      return try {
-        SpeechRecognition(this@CameraActivity, SpeechListener())
-      } catch (exception: Exception) {
-        exception.printStackTrace()
-        null
-      }
+    var textToSpeech: TextToSpeech? = null
+    var exercise: Exercise? = null
+    var exerciseDesc: String? = null
+    var working = false
+
+    private var progressDialog: ProgressDialog? = null
+
+    inner class CountdownTask: TimerTask() {
+        var time : Int = 6
+
+        override fun run() {
+            time -= 1
+            if (time > 0) {
+                textToSpeech!!.speak(time.toString())
+            } else {
+                textToSpeech!!.speak("Go!")
+                working = true
+                cancel()
+            }
+        }
+
     }
 
-    override fun onPostExecute(result: SpeechRecognition?) {
-      speechRecognition = result
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_camera)
 
-      if (speechRecognition == null) {
-        progressDialog.hide()
-        TODO("implement message that loading speech recognition failed")
-      } else {
+        progressDialog = ProgressDialog(this@CameraActivity)
+
+        progressDialog!!.setMessage("Loading, please wait...")
+        progressDialog!!.show()
+
         textToSpeech = TextToSpeech(this@CameraActivity,
                 android.speech.tts.TextToSpeech.OnInitListener {
-                  progressDialog.hide()
-                  if (it != android.speech.tts.TextToSpeech.SUCCESS) {
-                    TODO("implement message that loading text-to-speech failed")
-                  } else {
-                    speechRecognition!!.start()
-                  }
+                    progressDialog!!.hide()
+                    if (it != android.speech.tts.TextToSpeech.SUCCESS) {
+                        val builder = AlertDialog.Builder(this@CameraActivity)
+                        builder.setTitle("Text-to-speech init error")
+                        builder.setMessage("An error occurred when setting up text-to-speech. " +
+                                "The app will close now.")
+                        builder.create().show()
+                        exitProcess(0)
+                    } else {
+                        if (null == savedInstanceState) {
+                            var exerciseString = intent.extras.getString("exercise")
+
+                            if (exerciseString.equals("front")) {
+                                exercise = FrontRaise()
+                                exerciseDesc = "Front raise"
+                            } else if (exerciseString.equals("curl")) {
+                                exercise = BicepsCurl()
+                                exerciseDesc = "Biceps curl"
+                            } else if (exerciseString.equals("lateral")) {
+                                exercise = LateralRaise()
+                                exerciseDesc = "Lateral raise"
+                            }
+
+                            fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.container, Camera2BasicFragment.newInstance())
+                                    .commit()
+
+                            val timer = Timer()
+                            textToSpeech!!.speak("$exerciseDesc starting in ", Runnable {
+                                timer.schedule(CountdownTask(), 250, 1000)
+                            })
+                        }
+                    }
                 })
-      }
-    }
-  }
-
-  inner class SpeechListener : SpeechRecognition.SpeechRecognitionListener {
-    override fun onStart() {
-      TODO("not implemented")
     }
 
-    override fun onPause() {
-      TODO("not implemented")
+    override fun onResume() {
+        super.onResume()
+        if (!OpenCVLoader.initDebug()) {
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback)
+        } else {
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
+        }
     }
 
-    override fun onStop() {
-      TODO("not implemented")
-    }
+    companion object {
 
-  }
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_camera)
-    if (null == savedInstanceState) {
-      fragmentManager
-          .beginTransaction()
-          .replace(R.id.container, Camera2BasicFragment.newInstance())
-          .commit()
-    }
-
-    ResourceInitTask().execute()
-  }
-
-  override fun onResume() {
-    super.onResume()
-    if (!OpenCVLoader.initDebug()) {
-      OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mLoaderCallback)
-    } else {
-      mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
-    }
-  }
-
-  companion object {
-
-    init {
-      System.loadLibrary("opencv_java3")
-    }
+        init {
+            System.loadLibrary("opencv_java3")
+        }
 
     @JvmStatic
     var isOpenCVInit = false
+  }
+
+    override fun onBackPressed() {
+        startSummaryPage()
+        super.onBackPressed()
+    }
+
+    private fun startSummaryPage(){
+    val intent = Intent(this, SummaryActivity::class.java)
+    val errors = exercise!!.errors.toList().sortedBy { (k, v) -> v }.map { (k, v) -> k }
+
+    intent.putExtra("num_errors", errors.size)
+    errors.forEachIndexed { i, x ->
+      intent.putExtra("error$i", x.toString())
+    }
+
+    intent.putExtra("reps", exercise!!.reps)
+    startActivity(intent)
   }
 }

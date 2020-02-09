@@ -2,6 +2,7 @@ package org.ichack20.poser.exercises;
 
 import org.ichack20.poser.Pose;
 import org.ichack20.poser.Pose.Angle;
+import org.ichack20.poser.TextToSpeech;
 
 public class BicepsCurl extends Exercise {
 
@@ -24,7 +25,7 @@ public class BicepsCurl extends Exercise {
   }
 
   @Override
-  public void update(Pose pose) {
+  public void update(Pose pose, TextToSpeech textToSpeech) {
     double leftElbow = pose.getAngle(Angle.L_ELBOW);
     double rightElbow = pose.getAngle(Angle.R_ELBOW);
     double rightShoulder = pose.getAngle(Angle.R_SHOULDER);
@@ -39,6 +40,8 @@ public class BicepsCurl extends Exercise {
       if (prevMove == Move.DOWN) {
         prevMove = Move.UP;
         reps++;
+
+        textToSpeech.speak(reps + "");
       }
     }
 
@@ -46,12 +49,12 @@ public class BicepsCurl extends Exercise {
     in_error_shoulder_angle = trackError(
         rightShoulder < ERROR_SHOULDER_ANGLE_FORWARD
             && rightShoulder > ERROR_SHOULDER_ANGLE_BACKWARD,
-        ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle);
+        ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle, textToSpeech);
 
     // Kee[ track of moving hips and add errors
     in_error_hip_angle = trackError(pose.getAngle(Angle.R_HIP)
             < ERROR_HIP_ANGLE_FORWARD || pose.getAngle(Angle.R_HIP)
             > ERROR_HIP_ANGLE_BACKWARD,
-        ExerciseError.HIP_FLEX_ERROR, in_error_hip_angle);
+        ExerciseError.HIP_FLEX_ERROR, in_error_hip_angle, textToSpeech);
   }
 }

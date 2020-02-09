@@ -2,6 +2,7 @@ package org.ichack20.poser.exercises;
 
 import org.ichack20.poser.Pose;
 import org.ichack20.poser.Pose.Angle;
+import org.ichack20.poser.TextToSpeech;
 
 public class FrontRaise extends Exercise {
 
@@ -23,7 +24,7 @@ public class FrontRaise extends Exercise {
   }
 
   @Override
-  public void update(Pose pose) {
+  public void update(Pose pose, TextToSpeech textToSpeech) {
     if (pose.getAngle(Angle.R_SHOULDER) < END_SHOULDER_ANGLE
         && pose.getAngle(Angle.R_SHOULDER) > 120) { // > 120 to prevent overflow to 0
       if (prevMove == Move.UP) {
@@ -35,18 +36,19 @@ public class FrontRaise extends Exercise {
       if (prevMove == Move.DOWN) {
         prevMove = Move.UP;
         reps++;
+        textToSpeech.speak(reps + "");
       }
     }
 
     // Keep track of flexing arm and add errors
     in_error_elbow_angle = trackError(pose.getAngle(Angle.R_ELBOW)
         < ERROR_ELBOW_ANGLE, ExerciseError.ELBOW_FLEX_ERROR,
-        in_error_elbow_angle);
+        in_error_elbow_angle, textToSpeech);
 
     // Keep track of hip flex and add errors
     in_error_hip_angle = trackError(pose.getAngle(Angle.R_HIP)
         < ERROR_HIP_ANGLE_FORWARD || pose.getAngle(Angle.R_HIP)
         > ERROR_HIP_ANGLE_BACKWARD, ExerciseError.HIP_FLEX_ERROR,
-        in_error_hip_angle);
+        in_error_hip_angle, textToSpeech);
   }
 }

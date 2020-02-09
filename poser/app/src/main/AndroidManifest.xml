@@ -13,6 +13,7 @@
       android:label="@string/app_name"
       android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name="com.edvard.poseestimation.CameraActivity" />
+        <activity android:name="org.ichack20.poser.SummaryActivity" />
         <activity
           android:name="org.ichack20.poser.MainActivity"
           android:label="@string/app_name"

@@ -19,10 +19,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
-import android.widget.Toast
-import org.ichack20.poser.SpeechRecognition
+import org.ichack20.poser.SummaryActivity
 import org.ichack20.poser.TextToSpeech
 import org.ichack20.poser.exercises.BicepsCurl
 import org.ichack20.poser.exercises.Exercise
@@ -67,7 +65,7 @@ class CameraActivity : Activity() {
     private var progressDialog: ProgressDialog? = null
 
     inner class CountdownTask: TimerTask() {
-        var time : Int = 11
+        var time : Int = 6
 
         override fun run() {
             time -= 1
@@ -149,9 +147,14 @@ class CameraActivity : Activity() {
     var isOpenCVInit = false
   }
 
-  private fun startSummaryPage(){
-    val intent = Intent(this, CameraActivity::class.java)
-    val errors = exercise!!.errors.toList().sortedBy { (k, v) -> v }
+    override fun onBackPressed() {
+        startSummaryPage()
+        super.onBackPressed()
+    }
+
+    private fun startSummaryPage(){
+    val intent = Intent(this, SummaryActivity::class.java)
+    val errors = exercise!!.errors.toList().sortedBy { (k, v) -> v }.map { (k, v) -> k }
 
     intent.putExtra("num_errors", errors.size)
     errors.forEachIndexed { i, x ->

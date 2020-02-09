@@ -40,10 +40,10 @@ class SummaryActivity : Activity(){
 
     private fun populate(){
         for(i in 0 until  num_errors){
-            errorViews[i].text = "* $errors[i]"
+            errorViews[i].text = "* ${errors[i]}"
         }
 
-        repsView!!.text = reps.toString()
+        repsView!!.text = "Total Reps: $reps.toString()"
     }
 
     fun Save() {

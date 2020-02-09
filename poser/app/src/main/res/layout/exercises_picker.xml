@@ -43,6 +43,7 @@
 
                 <ImageButton
 
+                  android:id="@+id/front_raises"
                   android:layout_width="350dp"
                   android:layout_height="170dp"
                   android:layout_centerInParent="true"
@@ -72,13 +73,11 @@
 
                 <ImageButton
 
+                  android:id="@+id/lateral"
                   android:layout_width="350dp"
                   android:layout_height="170dp"
-                  android:layout_alignParentStart="true"
-                  android:layout_centerVertical="true"
-                  android:layout_marginStart="77dp"
+                  android:layout_centerInParent="true"
                   android:layout_marginBottom="0dp"
-
                   android:background="@null"
                   android:onClick="onCurlClick"
                   android:scaleType="centerCrop"

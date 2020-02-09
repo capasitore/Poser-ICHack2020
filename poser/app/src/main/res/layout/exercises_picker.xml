@@ -30,6 +30,34 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_gravity="center"
+          android:layout_weight="1"
+          android:background="@color/black"
+          app:cardBackgroundColor="#00888888">
+
+            <RelativeLayout
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+                <ImageButton
+
+                  android:layout_width="350dp"
+                  android:layout_height="170dp"
+                  android:layout_centerInParent="true"
+                  android:layout_marginBottom="0dp"
+                  android:background="@null"
+                  android:onClick="onLateralClick"
+                  android:scaleType="centerCrop"
+                  app:srcCompat="@drawable/lateral_raises" />
+
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -82,36 +110,6 @@
                   android:onClick="onCurlClick"
                   android:scaleType="centerCrop"
                   app:srcCompat="@drawable/bicepscurl" />
-
-            </RelativeLayout>
-
-
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@color/black"
-            app:cardBackgroundColor="#00888888">
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <ImageButton
-
-                  android:layout_width="350dp"
-                  android:layout_height="170dp"
-                  android:layout_centerInParent="true"
-                  android:layout_marginBottom="0dp"
-                  android:background="@null"
-                  android:onClick="onLateralClick"
-                  android:scaleType="centerCrop"
-                  app:srcCompat="@drawable/lateral_raises" />
-
 
             </RelativeLayout>
 

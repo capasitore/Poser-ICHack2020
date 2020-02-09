@@ -6,7 +6,6 @@ public enum ExerciseError {
   SHOULDER_MOVE_ERROR("Don't move your upper arm!"),
   HIP_FLEX_ERROR("Don't move your hips!");
 
-
   private final String errorMessage;
 
   ExerciseError(String errorMessage) {

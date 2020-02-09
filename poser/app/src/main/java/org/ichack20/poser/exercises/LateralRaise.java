@@ -19,7 +19,6 @@ public class LateralRaise extends Exercise {
 
   @Override
   public void update(Pose pose) {
-
     if (pose.getAngle(Angle.L_SHOULDER) > END_SHOULDER_ANGLE
         && pose.getAngle(Angle.R_SHOULDER) > END_SHOULDER_ANGLE) {
       if (prevMove == Move.UP) {

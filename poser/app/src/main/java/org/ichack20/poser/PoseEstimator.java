@@ -6,6 +6,7 @@ import com.edvard.poseestimation.ImageClassifier;
 import com.edvard.poseestimation.ImageClassifierFloatInception;
 
 public class PoseEstimator {
+
   private final ImageClassifier imageClassifier;
 
   public PoseEstimator(Activity activity) {

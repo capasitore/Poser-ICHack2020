@@ -15,15 +15,12 @@
 
 package com.edvard.poseestimation
 
-import android.Manifest
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import org.ichack20.poser.SpeechRecognition
+import org.ichack20.poser.TextToSpeech
 
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
@@ -54,12 +51,13 @@ class CameraActivity : Activity() {
   }
 
   private var speechRecognition: SpeechRecognition? = null
+  private var textToSpeech: TextToSpeech? = null
 
-  inner class SpeechInitTask : AsyncTask<Void, Void, SpeechRecognition?>() {
+  inner class ResourceInitTask : AsyncTask<Void, Void, SpeechRecognition?>() {
     private var progressDialog = ProgressDialog(this@CameraActivity)
 
     override fun onPreExecute() {
-      progressDialog.setMessage("Loading speech recognition...")
+      progressDialog.setMessage("Loading, please wait...")
       progressDialog.show()
     }
 
@@ -74,12 +72,20 @@ class CameraActivity : Activity() {
 
     override fun onPostExecute(result: SpeechRecognition?) {
       speechRecognition = result
-      progressDialog.hide()
 
       if (speechRecognition == null) {
+        progressDialog.hide()
         TODO("implement message that loading speech recognition failed")
       } else {
-        speechRecognition!!.start()
+        textToSpeech = TextToSpeech(this@CameraActivity,
+                android.speech.tts.TextToSpeech.OnInitListener {
+                  progressDialog.hide()
+                  if (it != android.speech.tts.TextToSpeech.SUCCESS) {
+                    TODO("implement message that loading text-to-speech failed")
+                  } else {
+                    speechRecognition!!.start()
+                  }
+                })
       }
     }
   }
@@ -109,7 +115,7 @@ class CameraActivity : Activity() {
           .commit()
     }
 
-    SpeechInitTask().execute()
+    ResourceInitTask().execute()
   }
 
   override fun onResume() {

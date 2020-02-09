@@ -33,11 +33,11 @@ public class Pose {
   }
 
   public enum Angle {
-    L_SHOULDER(Node.L_HIP, Node.L_SHOULDER, Node.L_ELBOW),
-    R_SHOULDER(Node.R_ELBOW, Node.R_SHOULDER, Node.R_HIP),
-    L_ELBOW(Node.L_SHOULDER, Node.L_ELBOW, Node.L_WRIST),
-    R_ELBOW(Node.R_WRIST, Node.R_ELBOW, Node.R_SHOULDER),
-    R_HIP(Node.R_KNEE, Node.R_HIP, Node.NECK);
+    L_SHOULDER(Node.R_HIP, Node.R_SHOULDER, Node.R_ELBOW),
+    R_SHOULDER(Node.L_ELBOW, Node.L_SHOULDER, Node.L_HIP),
+    L_ELBOW(Node.R_SHOULDER, Node.R_ELBOW, Node.R_WRIST),
+    R_ELBOW(Node.L_WRIST, Node.L_ELBOW, Node.L_SHOULDER),
+    R_HIP(Node.L_KNEE, Node.L_HIP, Node.NECK);
 
     public Node getFirst() {
       return first;
@@ -65,18 +65,18 @@ public class Pose {
   public enum Node {
     TOP,
     NECK,
-    L_SHOULDER,
-    L_ELBOW,
-    L_WRIST,
     R_SHOULDER,
     R_ELBOW,
     R_WRIST,
-    L_HIP,
-    L_KNEE,
-    L_ANKLE,
+    L_SHOULDER,
+    L_ELBOW,
+    L_WRIST,
     R_HIP,
     R_KNEE,
     R_ANKLE,
+    L_HIP,
+    L_KNEE,
+    L_ANKLE,
     BACKGROUND
   }
 }

@@ -6,8 +6,8 @@ import org.ichack20.poser.Pose.Angle;
 public class LateralRaise extends Exercise {
 
   private final static int ERROR_ELBOW_ANGLE = 160;
-  private final static int START_SHOULDER_ANGLE_FRONT = 20;
-  private final static int END_SHOULDER_ANGLE = 80;
+  private final static int START_SHOULDER_ANGLE_FRONT = 45;
+  private final static int END_SHOULDER_ANGLE = 100;
 
   private boolean in_error_elbow_angle = false;
   private Move prevMove = Move.UP;

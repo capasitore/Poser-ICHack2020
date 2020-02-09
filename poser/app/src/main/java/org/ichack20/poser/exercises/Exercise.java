@@ -17,6 +17,10 @@ public abstract class Exercise {
   protected int reps;
   protected Map<ExerciseError, Integer> errors;
 
+  public int getReps() {
+    return reps;
+  }
+
   public Exercise() {
     this.reps = 0;
     this.errors = new HashMap<>();

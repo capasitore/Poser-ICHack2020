@@ -55,6 +55,8 @@ import android.widget.TextView
 import android.widget.Toast
 import org.ichack20.poser.Pose
 import org.ichack20.poser.PoseEstimator
+import org.ichack20.poser.exercises.Exercise
+import org.ichack20.poser.exercises.LateralRaise
 import java.io.IOException
 import java.util.ArrayList
 import java.util.Arrays
@@ -76,6 +78,9 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private var layoutFrame: AutoFitFrameLayout? = null
   private var drawView: DrawView? = null
   private var classifier: ImageClassifier? = null
+
+
+  private var reps_counter: TextView? = null
   /**
    * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [ ].
    */
@@ -249,6 +254,8 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     }
   }
 
+  private lateinit var exercise : Exercise
+
   /**
    * Layout the preview and buttons.
    */
@@ -257,6 +264,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
+
     return inflater.inflate(R.layout.fragment_camera2_basic, container, false)
   }
 
@@ -271,6 +279,10 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     layoutFrame = view.findViewById(R.id.layout_frame)
     drawView = view.findViewById(R.id.drawview)
     debugger = view.findViewById(R.id.angle_debug)
+
+    reps_counter = view.findViewById(R.id.rep_counter_txt)
+
+    exercise = LateralRaise()
   }
 
   /**
@@ -639,6 +651,9 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     val ps = PoseEstimator(classifier)
     val pose = ps.processFrame(bitmap)
 
+    exercise.update(pose)
+    reps_counter!!.text = exercise.reps.toString()
+
     var txt = "ls: ${pose.getAngle(Pose.Angle.L_SHOULDER).toInt()}" +
             " rs: ${pose.getAngle(Pose.Angle.R_SHOULDER).toInt()}" +
             " le: ${pose.getAngle(Pose.Angle.L_ELBOW).toInt()}" +
@@ -646,8 +661,6 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
             " rh: ${pose.getAngle(Pose.Angle.R_HIP).toInt()}"
 
     activity.runOnUiThread{debugger!!.text = txt}
-
-
 
 
 //    val textToShow = classifier!!.classifyFrame(bitmap)

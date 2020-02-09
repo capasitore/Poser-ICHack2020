@@ -24,6 +24,8 @@ public abstract class Exercise {
     this.errors = new HashMap<>();
   }
 
+
+  // Can (maybe) use to substitute checks for error in exercise classes
   public boolean trackError(double e1, double e2, int limit1, int limit2, ExerciseError error, boolean in_error) {
     if (e1 > limit1 && e1 < limit2 || e2 > limit1 && e2 < limit2) {
       if (!in_error) {

@@ -5,6 +5,8 @@ import org.ichack20.poser.Pose.Angle;
 
 public class BicepsCurl extends Exercise {
 
+  // ALWAYS RIGHT HAND IN FRONT OF THE CAMERA!!!
+
   private boolean in_error_hip_angle = false;
   private boolean in_error_shoulder_angle = false;
   private Move prevMove = Move.UP;
@@ -19,7 +21,6 @@ public class BicepsCurl extends Exercise {
 
     double leftElbow = pose.getAngle(Angle.L_ELBOW);
     double rightElbow = pose.getAngle(Angle.R_ELBOW);
-    double leftShoulder = pose.getAngle(Angle.L_SHOULDER);
     double rightShoulder = pose.getAngle(Angle.R_SHOULDER);
 
     if (leftElbow < END_ELBOW_ANGLE && rightElbow < END_ELBOW_ANGLE) {
@@ -35,12 +36,8 @@ public class BicepsCurl extends Exercise {
       }
     }
 
-    in_error_shoulder_angle = trackError(leftShoulder, rightShoulder,
-        ERROR_SHOULDER_ANGLE_FORWARD, ERROR_SHOULDER_ANGLE_BACKWARD,
-        ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle);
-
-    if (leftShoulder > ERROR_SHOULDER_ANGLE_FORWARD && leftShoulder < ERROR_SHOULDER_ANGLE_BACKWARD
-        || rightShoulder > ERROR_SHOULDER_ANGLE_FORWARD && rightShoulder < ERROR_SHOULDER_ANGLE_BACKWARD) {
+    // Keep track of moving upper arm and add errors
+    if (rightShoulder > ERROR_SHOULDER_ANGLE_FORWARD && rightShoulder < ERROR_SHOULDER_ANGLE_BACKWARD) {
       if (!in_error_shoulder_angle) {
         in_error_shoulder_angle = true;
         if (errors.containsKey(ExerciseError.SHOULDER_MOVE_ERROR)) {

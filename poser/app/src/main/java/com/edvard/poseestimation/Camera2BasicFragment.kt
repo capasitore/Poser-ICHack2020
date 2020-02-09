@@ -76,7 +76,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private var textureView: AutoFitTextureView? = null
   private var debugger: TextView? = null
   private var layoutFrame: AutoFitFrameLayout? = null
-  private var drawView: DrawView? = null
+//  private var drawView: DrawView? = null
   private var classifier: ImageClassifier? = null
 
 
@@ -250,7 +250,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private fun showToast(text: String) {
     val activity = activity
     activity?.runOnUiThread {
-      drawView!!.invalidate()
+//      drawView!!.invalidate()
     }
   }
 
@@ -277,8 +277,12 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   ) {
     textureView = view.findViewById(R.id.texture)
     layoutFrame = view.findViewById(R.id.layout_frame)
-    drawView = view.findViewById(R.id.drawview)
+//    drawView = view.findViewById(R.id.drawview)
     debugger = view.findViewById(R.id.angle_debug)
+
+//    val displayMetrics = Resources.getSystem().displayMetrics
+//
+//    drawView!!.setImgSize( displayMetrics.heightPixels,  displayMetrics.widthPixels)
 
     reps_counter = view.findViewById(R.id.rep_counter_txt)
 
@@ -294,8 +298,11 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
       // create either a new ImageClassifierQuantizedMobileNet or an ImageClassifierFloatInception
       //      classifier = new ImageClassifierQuantizedMobileNet(getActivity());
       classifier = ImageClassifierFloatInception.create(activity)
-      if (drawView != null)
-        drawView!!.setImgSize(classifier!!.imageSizeX, classifier!!.imageSizeY)
+//      if (drawView != null){
+//        val displayMetrics = Resources.getSystem().getDisplayMetrics()
+//        println("DISPLAY  h: ${displayMetrics.heightPixels}, w: ${displayMetrics.widthPixels}")
+//        drawView!!.setImgSize( displayMetrics.heightPixels,  displayMetrics.widthPixels)
+//      }
     } catch (e: IOException) {
       Log.e(TAG, "Failed to initialize an image classifier.", e)
     }
@@ -411,16 +418,16 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
         previewSize = Size(displayMetrics.heightPixels, displayMetrics.widthPixels)
 
         // We fit the aspect ratio of TextureView to the size of preview we picked.
-        val orientation = resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-          layoutFrame!!.setAspectRatio(previewSize!!.width, previewSize!!.height)
-          textureView!!.setAspectRatio(previewSize!!.width, previewSize!!.height)
-          drawView!!.setAspectRatio(previewSize!!.width, previewSize!!.height)
-        } else {
-          layoutFrame!!.setAspectRatio(previewSize!!.height, previewSize!!.width)
-          textureView!!.setAspectRatio(previewSize!!.height, previewSize!!.width)
-          drawView!!.setAspectRatio(previewSize!!.height, previewSize!!.width)
-        }
+//        val orientation = resources.configuration.orientation
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//          layoutFrame!!.setAspectRatio(previewSize!!.width, previewSize!!.height)
+//          textureView!!.setAspectRatio(previewSize!!.width, previewSize!!.height)
+//          drawView!!.setAspectRatio(previewSize!!.width, previewSize!!.height)
+//        } else {
+        layoutFrame!!.setAspectRatio(previewSize!!.height, previewSize!!.width)
+        textureView!!.setAspectRatio(previewSize!!.height, previewSize!!.width)
+//        drawView!!.setAspectRatio(previewSize!!.height, previewSize!!.width)
+//        }
 
         this.cameraId = cameraId
         return
@@ -652,7 +659,8 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     val pose = ps.processFrame(bitmap)
 
     exercise.update(pose)
-    reps_counter!!.text = exercise.reps.toString()
+
+    activity.runOnUiThread{reps_counter!!.text = exercise.reps.toString()}
 
     var txt = "ls: ${pose.getAngle(Pose.Angle.L_SHOULDER).toInt()}" +
             " rs: ${pose.getAngle(Pose.Angle.R_SHOULDER).toInt()}" +
@@ -666,7 +674,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
 //    val textToShow = classifier!!.classifyFrame(bitmap)
     bitmap.recycle()
 
-    drawView!!.setDrawPoint(pose.rawPoints, 0.5f)
+//    drawView!!.setDrawPoint(pose.rawPoints, 0.5f)
 //    showToast(textToShow)
   }
 

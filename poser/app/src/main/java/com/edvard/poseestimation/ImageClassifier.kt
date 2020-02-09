@@ -88,7 +88,7 @@ internal constructor(
     val startTime = SystemClock.uptimeMillis()
     runInference()
     val endTime = SystemClock.uptimeMillis()
-    Log.d(TAG, "Timecost to run model inference: " + Long.toString(endTime - startTime))
+//    Log.d(TAG, "Timecost to run model inference: " + Long.toString(endTime - startTime))
 
     bitmap.recycle()
     // Print the results.
@@ -131,10 +131,10 @@ internal constructor(
       }
     }
     val endTime = SystemClock.uptimeMillis()
-    Log.d(
-        TAG,
-        "Timecost to put values into ByteBuffer: " + Long.toString(endTime - startTime)
-    )
+//    Log.d(
+//        TAG,
+//        "Timecost to put values into ByteBuffer: " + Long.toString(endTime - startTime)
+//    )
   }
 
   /**

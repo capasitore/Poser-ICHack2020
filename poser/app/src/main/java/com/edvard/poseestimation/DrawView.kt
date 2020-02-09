@@ -33,7 +33,7 @@ class DrawView : View {
   private var mRatioWidth = 0
   private var mRatioHeight = 0
 
-  private val mDrawPoint = ArrayList<PointF>()
+  private var mDrawPoint = ArrayList<PointF>()
   private var mWidth: Int = 0
   private var mHeight: Int = 0
   private var mRatioX: Float = 0.toFloat()
@@ -108,6 +108,9 @@ class DrawView : View {
     for (i in 0..13) {
       tempX = point[0][i] /  ratio / mRatioX
       tempY = point[1][i] / ratio / mRatioY
+
+//      println("x: $tempX, y: $tempY")
+
       mDrawPoint.add(PointF(tempX, tempY))
     }
   }
@@ -133,36 +136,50 @@ class DrawView : View {
   }
 
   override fun onDraw(canvas: Canvas) {
+    println("---------------------\n\n before on draw\n\n-------------")
+    println("Canvas size:: w: ${canvas.width}: ${canvas.height}")
     super.onDraw(canvas)
-    if (mDrawPoint.isEmpty()) return
-    var prePointF: PointF? = null
-    mPaint.color = 0xff6fa8dc.toInt()
-    val p1 = mDrawPoint[1]
-    for ((index, pointF) in mDrawPoint.withIndex()) {
-      if (index == 1) continue
-      when (index) {
-      //0-1
-        0 -> {
-          canvas.drawLine(pointF.x, pointF.y, p1.x, p1.y, mPaint)
-        }
-      // 1-2, 1-5, 1-8, 1-11
-        2, 5, 8, 11 -> {
-          canvas.drawLine(p1.x, p1.y, pointF.x, pointF.y, mPaint)
-        }
-        else -> {
-          if (prePointF != null) {
-            mPaint.color = 0xff6fa8dc.toInt()
-            canvas.drawLine(prePointF.x, prePointF.y, pointF.x, pointF.y, mPaint)
-          }
-        }
-      }
-      prePointF = pointF
-    }
+    println("---------------------\n\nin on draw\n\n-------------")
 
-    for ((index, pointF) in mDrawPoint.withIndex()) {
-      mPaint.color = mColorArray[index]
-      canvas.drawCircle(pointF.x, pointF.y, circleRadius, mPaint)
-    }
+    canvas.drawCircle(200f, 200f, 50f, mPaint)
+
+//    mDrawPoint.forEach{it ->
+//      if (it.x > canvas.width)
+//        println("######################\n x is the issue##############")
+//      if (it.y > canvas.height)
+//        println("######################\n x is the issue##############")
+//    }
+//
+//    if (mDrawPoint.isEmpty()) return
+//    var prePointF: PointF? = null
+//    mPaint.color = 0xff6fa8dc.toInt()
+//    val p1 = mDrawPoint[1]
+//    println("---------------------\n\nwe got this boi\n\n-------------")
+//    for ((index, pointF) in mDrawPoint.withIndex()) {
+//      if (index == 1) continue
+//      when (index) {
+//      //0-1
+//        0 -> {
+//          canvas.drawLine(pointF.x, pointF.y, p1.x, p1.y, mPaint)
+//        }
+//      // 1-2, 1-5, 1-8, 1-11
+//        2, 5, 8, 11 -> {
+//          canvas.drawLine(p1.x, p1.y, pointF.x, pointF.y, mPaint)
+//        }
+//        else -> {
+//          if (prePointF != null) {
+//            mPaint.color = 0xff6fa8dc.toInt()
+//            canvas.drawLine(prePointF.x, prePointF.y, pointF.x, pointF.y, mPaint)
+//          }
+//        }
+//      }
+//      prePointF = pointF
+//    }
+//
+//    for ((index, pointF) in mDrawPoint.withIndex()) {
+//      mPaint.color = mColorArray[index]
+//      canvas.drawCircle(pointF.x, pointF.y, circleRadius, mPaint)
+//    }
   }
 
   override fun onMeasure(

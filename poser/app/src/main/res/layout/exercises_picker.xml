@@ -47,8 +47,8 @@
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="0dp"
                     android:background="@null"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/deadlift" />
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/frontraises" />
 
             </RelativeLayout>
 
@@ -72,13 +72,14 @@
 
                     android:layout_width="350dp"
                     android:layout_height="170dp"
-                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="30dp"
                     android:layout_marginBottom="0dp"
-                    android:background="@null"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/bicepscurl"
 
-                    />
+                    android:background="@null"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/bicepscurl" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -110,8 +111,8 @@
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="0dp"
                     android:background="@null"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/bench" />
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/lateral_raises" />
 
 
             </RelativeLayout>

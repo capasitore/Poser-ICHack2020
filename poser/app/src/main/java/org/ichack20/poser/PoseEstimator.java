@@ -2,6 +2,7 @@ package org.ichack20.poser;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.util.Log;
 import com.edvard.poseestimation.ImageClassifier;
 import com.edvard.poseestimation.ImageClassifierFloatInception;
 
@@ -9,15 +10,8 @@ public class PoseEstimator {
 
   private final ImageClassifier imageClassifier;
 
-  public PoseEstimator(Activity activity) {
-    this(activity, 192, 192, 96, 96, "model.tflite", 4);
-  }
-
-  public PoseEstimator(Activity activity, int imageSizeX, int imageSizeY, int outputW, int outputH,
-      String modelPath, int numBytesPerChannel) {
-    this.imageClassifier = ImageClassifierFloatInception.Companion.create(activity, imageSizeX,
-        imageSizeY, outputW, outputH, modelPath, numBytesPerChannel);
-    this.imageClassifier.initTflite(true);
+  public PoseEstimator(ImageClassifier imageClassifier) {
+    this.imageClassifier = imageClassifier;
   }
 
   public Pose processFrame(Bitmap bitmap) {

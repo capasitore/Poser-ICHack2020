@@ -5,14 +5,20 @@ public class Pose {
   private static final double DEG_PER_RAD = 180 / Math.PI;
 
   private final Point[] points = new Point[Node.values().length];
+  private final float[][] rawPoints;
 
   public Pose(float[][] points) {
-    for (int i = 0; i <= points.length; i++) {
+    this.rawPoints = points;
+    for (int i = 0; i < this.points.length; i++) {
       this.points[i] = new Point(points[0][i], points[1][i]);
     }
   }
 
-  private double getAngle(Point first, Point middle, Point last) {
+  private Double getAngle(Point first, Point middle, Point last) {
+    if (first == null || middle == null || last == null) {
+      return null;
+    }
+
     Vector firstVector = new Vector(first, middle);
     Vector secondVector = new Vector(middle, last);
 
@@ -21,23 +27,27 @@ public class Pose {
 
     double result_rad = Math.atan2(det, dotProduct);
 
-    return result_rad * DEG_PER_RAD;
+    return 180 - (result_rad * DEG_PER_RAD);
   }
 
-  public double getAngle(Node first, Node middle, Node last) {
+  public Double getAngle(Node first, Node middle, Node last) {
     return getAngle(points[first.ordinal()], points[middle.ordinal()], points[last.ordinal()]);
   }
 
-  public double getAngle(Angle angle) {
+  public Double getAngle(Angle angle) {
     return getAngle(angle.getFirst(), angle.getMiddle(), angle.getLast());
   }
 
+  public float[][] getRawPoints() {
+    return rawPoints;
+  }
+
   public enum Angle {
-    L_SHOULDER(Node.R_HIP, Node.R_SHOULDER, Node.R_ELBOW),
-    R_SHOULDER(Node.L_ELBOW, Node.L_SHOULDER, Node.L_HIP),
-    L_ELBOW(Node.R_SHOULDER, Node.R_ELBOW, Node.R_WRIST),
-    R_ELBOW(Node.L_WRIST, Node.L_ELBOW, Node.L_SHOULDER),
-    R_HIP(Node.L_KNEE, Node.L_HIP, Node.NECK);
+    R_SHOULDER(Node.R_ELBOW, Node.R_SHOULDER, Node.R_HIP),
+    L_SHOULDER(Node.L_HIP, Node.L_SHOULDER, Node.L_ELBOW),
+    R_ELBOW(Node.R_WRIST, Node.R_ELBOW, Node.R_SHOULDER),
+    L_ELBOW(Node.L_SHOULDER, Node.L_ELBOW, Node.L_WRIST),
+    R_HIP(Node.NECK, Node.R_HIP, Node.R_KNEE);
 
     public Node getFirst() {
       return first;
@@ -76,7 +86,6 @@ public class Pose {
     R_ANKLE,
     L_HIP,
     L_KNEE,
-    L_ANKLE,
-    BACKGROUND
+    L_ANKLE
   }
 }

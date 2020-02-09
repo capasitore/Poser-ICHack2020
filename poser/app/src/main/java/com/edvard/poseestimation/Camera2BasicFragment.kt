@@ -53,6 +53,8 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import org.ichack20.poser.Pose
+import org.ichack20.poser.PoseEstimator
 import java.io.IOException
 import java.util.ArrayList
 import java.util.Arrays
@@ -70,6 +72,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   private var runClassifier = false
   private var checkedPermissions = false
   private var textureView: AutoFitTextureView? = null
+  private var debugger: TextView? = null
   private var layoutFrame: AutoFitFrameLayout? = null
   private var drawView: DrawView? = null
   private var classifier: ImageClassifier? = null
@@ -267,7 +270,7 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
     textureView = view.findViewById(R.id.texture)
     layoutFrame = view.findViewById(R.id.layout_frame)
     drawView = view.findViewById(R.id.drawview)
-
+    debugger = view.findViewById(R.id.angle_debug)
   }
 
   /**
@@ -624,19 +627,34 @@ class Camera2BasicFragment : Fragment(), FragmentCompat.OnRequestPermissionsResu
   /**
    * Classifies a frame from the preview stream.
    */
+  @SuppressLint("SetTextI18n")
   private fun classifyFrame() {
     if (classifier == null || activity == null || cameraDevice == null) {
       showToast("Uninitialized Classifier or invalid context.")
       return
     }
+
     val bitmap = textureView!!.getBitmap(classifier!!.imageSizeX, classifier!!.imageSizeY)
-    val textToShow = classifier!!.classifyFrame(bitmap)
+
+    val ps = PoseEstimator(classifier)
+    val pose = ps.processFrame(bitmap)
+
+    var txt = "ls: ${pose.getAngle(Pose.Angle.L_SHOULDER).toInt()}" +
+            " rs: ${pose.getAngle(Pose.Angle.R_SHOULDER).toInt()}" +
+            " le: ${pose.getAngle(Pose.Angle.L_ELBOW).toInt()}" +
+            " re: ${pose.getAngle(Pose.Angle.R_ELBOW).toInt()}" +
+            " rh: ${pose.getAngle(Pose.Angle.R_HIP).toInt()}"
+
+    activity.runOnUiThread{debugger!!.text = txt}
+
+
+
+
+//    val textToShow = classifier!!.classifyFrame(bitmap)
     bitmap.recycle()
 
-
-    drawView!!.setDrawPoint(classifier!!.mPrintPointArray!!, 0.5f)
-
-    showToast(textToShow)
+    drawView!!.setDrawPoint(pose.rawPoints, 0.5f)
+//    showToast(textToShow)
   }
 
   /**

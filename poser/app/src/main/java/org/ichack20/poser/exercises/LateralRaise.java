@@ -5,6 +5,10 @@ import org.ichack20.poser.Pose.Angle;
 
 public class LateralRaise extends Exercise {
 
+  private final static int ERROR_ELBOW_ANGLE = 160;
+  private final static int START_SHOULDER_ANGLE_FRONT = 20;
+  private final static int END_SHOULDER_ANGLE = 80;
+
   private boolean in_error_elbow_angle = false;
   private Move prevMove = Move.UP;
 
@@ -32,21 +36,9 @@ public class LateralRaise extends Exercise {
     }
 
     // Keep track of flexing arm and add errors
-    if (pose.getAngle(Angle.L_ELBOW) < ERROR_ELBOW_ANGLE || pose.getAngle(Angle.R_ELBOW) < ERROR_ELBOW_ANGLE) {
-      if (!in_error_elbow_angle) {
-        in_error_elbow_angle = true;
-        if (errors.containsKey(ExerciseError.ELBOW_FLEX_ERROR)) {
-          int count = errors.get(ExerciseError.ELBOW_FLEX_ERROR);
-          count++;
-          errors.put(ExerciseError.ELBOW_FLEX_ERROR, count);
-        } else {
-          errors.put(ExerciseError.ELBOW_FLEX_ERROR, 1);
-        }
-      }
-    } else {
-      if (in_error_elbow_angle) {
-        in_error_elbow_angle = false;
-      }
-    }
+    in_error_elbow_angle = trackError(pose.getAngle(Angle.L_ELBOW)
+            < ERROR_ELBOW_ANGLE || pose.getAngle(Angle.R_ELBOW)
+            < ERROR_ELBOW_ANGLE,
+        ExerciseError.ELBOW_FLEX_ERROR, in_error_elbow_angle);
   }
 }

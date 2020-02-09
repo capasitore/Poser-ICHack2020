@@ -7,6 +7,13 @@ public class BicepsCurl extends Exercise {
 
   // ALWAYS RIGHT HAND IN FRONT OF THE CAMERA!!!
 
+  private final static int START_ELBOW_ANGLE = 165;
+  private final static int END_ELBOW_ANGLE = 50;
+  private final static int ERROR_SHOULDER_ANGLE_FORWARD = 30;
+  private final static int ERROR_SHOULDER_ANGLE_BACKWARD = 150;
+  private final static int ERROR_HIP_ANGLE_FORWARD = 160;
+  private final static int ERROR_HIP_ANGLE_BACKWARD = 200;
+
   private boolean in_error_hip_angle = false;
   private boolean in_error_shoulder_angle = false;
   private Move prevMove = Move.UP;
@@ -18,7 +25,6 @@ public class BicepsCurl extends Exercise {
 
   @Override
   public void update(Pose pose) {
-
     double leftElbow = pose.getAngle(Angle.L_ELBOW);
     double rightElbow = pose.getAngle(Angle.R_ELBOW);
     double rightShoulder = pose.getAngle(Angle.R_SHOULDER);
@@ -37,39 +43,15 @@ public class BicepsCurl extends Exercise {
     }
 
     // Keep track of moving upper arm and add errors
-    if (rightShoulder > ERROR_SHOULDER_ANGLE_FORWARD && rightShoulder < ERROR_SHOULDER_ANGLE_BACKWARD) {
-      if (!in_error_shoulder_angle) {
-        in_error_shoulder_angle = true;
-        if (errors.containsKey(ExerciseError.SHOULDER_MOVE_ERROR)) {
-          int count = errors.get(ExerciseError.SHOULDER_MOVE_ERROR);
-          count++;
-          errors.put(ExerciseError.SHOULDER_MOVE_ERROR, count);
-        } else {
-          errors.put(ExerciseError.SHOULDER_MOVE_ERROR, 1);
-        }
-      }
-    } else {
-      if (in_error_shoulder_angle) {
-        in_error_shoulder_angle = false;
-      }
-    }
+    in_error_shoulder_angle = trackError(
+        rightShoulder > ERROR_SHOULDER_ANGLE_FORWARD
+            && rightShoulder < ERROR_SHOULDER_ANGLE_BACKWARD,
+        ExerciseError.SHOULDER_MOVE_ERROR, in_error_shoulder_angle);
 
     // Kee[ track of moving hips and add errors
-    if (pose.getAngle(Angle.R_HIP) < ERROR_HIP_ANGLE_FORWARD || pose.getAngle(Angle.R_HIP) > ERROR_HIP_ANGLE_BACKWARD) {
-      if (!in_error_hip_angle) {
-        in_error_hip_angle = true;
-        if (errors.containsKey(ExerciseError.HIP_FLEX_ERROR)) {
-          int count = errors.get(ExerciseError.HIP_FLEX_ERROR);
-          count++;
-          errors.put(ExerciseError.HIP_FLEX_ERROR, count);
-        } else {
-          errors.put(ExerciseError.HIP_FLEX_ERROR, 1);
-        }
-      }
-    } else {
-      if (in_error_hip_angle) {
-        in_error_hip_angle = false;
-      }
-    }
+    in_error_hip_angle = trackError(pose.getAngle(Angle.R_HIP)
+            < ERROR_HIP_ANGLE_FORWARD || pose.getAngle(Angle.R_HIP)
+            > ERROR_HIP_ANGLE_BACKWARD,
+        ExerciseError.HIP_FLEX_ERROR, in_error_hip_angle);
   }
 }
